@@ -13,7 +13,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                 return (
                     <div className="flex flex-grow items-center justify-center">
                         {showQR ? (
-                            <QRCode value={`https://q-roll-call.vercel.app/attendance?classId=${activeClass.id}`} size={260} />
+                            <QRCode value={`https://q-roll-call.vercel.app/AttendanceForm?classId=${activeClass.id}`} size={260} />
                         ) : (
                             <button onClick={() => setShowQR(true)} className="w-48 h-48 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center text-2xl">
                                 Create QR Code
