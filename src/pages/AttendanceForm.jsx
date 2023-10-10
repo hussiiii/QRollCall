@@ -1,9 +1,22 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import CryptoJS from 'crypto-js';
 
 function AttendanceForm() {
     const router = useRouter();
-    const { classId } = router.query;
+    const { classId, sessionId, timestamp, hash } = router.query;
+
+    const isValidURL = () => {
+        const secretKey = "YOUR_SECRET_KEY";
+        const computedHash = CryptoJS.HmacSHA256(`${classId}${sessionId}${timestamp}`, secretKey).toString();
+        return computedHash === hash;
+    }
+
+    if (!isValidURL()) {
+        return (
+            <div>Error: Invalid or expired URL.</div>
+        );
+    }
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');

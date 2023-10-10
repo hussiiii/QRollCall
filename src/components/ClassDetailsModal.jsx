@@ -1,11 +1,23 @@
 // ClassDetailsModal.jsx
 import QRCode from 'qrcode.react';
 import {useState} from 'react'; 
+import { v4 as uuidv4 } from 'uuid';
+import CryptoJS from 'crypto-js';
+  
 
 function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClose }) {
     const [showQR, setShowQR] = useState(false);
+    const [qrURL, setQRURL] = useState('');
 
-    if (!isOpen || !activeClass) return null;
+    const generateDynamicURL = (classId) => {
+        const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
+        const sessionId = uuidv4(); // Generate a unique UUID
+        const timestamp = Date.now();
+
+        const hash = CryptoJS.HmacSHA256(`${classId}${sessionId}${timestamp}`, secretKey).toString();
+
+        return `https://q-roll-call.vercel.app/AttendanceForm?classId=${classId}&sessionId=${sessionId}&timestamp=${timestamp}&hash=${hash}`;
+    }
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -13,9 +25,13 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                 return (
                     <div className="flex flex-grow items-center justify-center">
                         {showQR ? (
-                            <QRCode value={`https://q-roll-call.vercel.app/AttendanceForm?classId=${activeClass.id}`} size={260} />
+                            <QRCode value={qrURL} size={260} />
                         ) : (
-                            <button onClick={() => setShowQR(true)} className="w-48 h-48 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center text-2xl">
+                            <button onClick={() => {
+                                const dynamicURL = generateDynamicURL(activeClass.id);
+                                setQRURL(dynamicURL);
+                                setShowQR(true);
+                            }} className="w-48 h-48 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center text-2xl">
                                 Create QR Code
                             </button>
                         )}
@@ -28,6 +44,8 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         }
     };
 
+    if (!isOpen || !activeClass) return null;
+    
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex flex-col bg-white p-8 rounded-lg w-3/4 h-3/4 max-w-xl max-h-xl overflow-hidden">
