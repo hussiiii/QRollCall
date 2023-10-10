@@ -25,7 +25,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                 return (
                     <div className="flex flex-grow items-center justify-center">
                         {showQR ? (
-                            <QRCode value={qrURL} size={260} />
+                            <QRCode value={qrURL} size={240} />
                         ) : (
                             <button onClick={() => {
                                 const dynamicURL = generateDynamicURL(activeClass.id);
@@ -45,7 +45,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
     };
 
     if (!isOpen || !activeClass) return null;
-    
+
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
             <div className="flex flex-col bg-white p-8 rounded-lg w-3/4 h-3/4 max-w-xl max-h-xl overflow-hidden">
