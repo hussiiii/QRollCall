@@ -6,6 +6,10 @@ function AttendanceForm() {
     const router = useRouter();
     const { classId, sessionId, timestamp, hash } = router.query;
 
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [section, setSection] = useState('');
+
     const isValidURL = () => {
         const secretKey = "YOUR_SECRET_KEY";
         const computedHash = CryptoJS.HmacSHA256(`${classId}${sessionId}${timestamp}`, secretKey).toString();
@@ -17,10 +21,6 @@ function AttendanceForm() {
             <div>Error: Invalid or expired URL.</div>
         );
     }
-
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [section, setSection] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
