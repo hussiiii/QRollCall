@@ -1,6 +1,34 @@
 // ClassDetailsModal.jsx
-function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClose, renderTabContent }) {
+import QRCode from 'qrcode.react';
+import {useState} from 'react'; 
+
+function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClose }) {
+    const [showQR, setShowQR] = useState(false);
+
     if (!isOpen || !activeClass) return null;
+
+    const renderTabContent = () => {
+        switch (activeTab) {
+            case 'attendance':
+                return (
+                    <div>
+                        {showQR ? (
+                            <div className="my-4">
+                                <QRCode value={`https://q-roll-call.vercel.app/attendance?classId=${activeClass.id}`} />
+                            </div>
+                        ) : (
+                            <button onClick={() => setShowQR(true)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out">
+                                Create QR Code
+                            </button>
+                        )}
+                    </div>
+                );
+            case 'data':
+                return <div>View Data Content</div>;
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">

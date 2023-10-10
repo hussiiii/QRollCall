@@ -33,7 +33,8 @@ export default function Home() {
                     </p>
                 </div>
                 <div className="md:w-1/2">
-                    <Image src="/candidates-cropped.svg" alt="Description of Image" className="w-full rounded-md" />
+                    <Image src="/candidates-cropped.svg" alt="Description of Image" width={800} height={600} className="w-full rounded-md" />
+
                 </div>
             </div>
 
