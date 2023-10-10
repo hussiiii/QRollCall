@@ -1,8 +1,9 @@
 // ClassDetailsModal.jsx
 import QRCode from 'qrcode.react';
-import {useState} from 'react'; 
 import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from 'crypto-js';
+import { useState, useEffect } from 'react';
+
   
 
 function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClose }) {
@@ -18,7 +19,12 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         return `https://q-roll-call.vercel.app/AttendanceForm?classId=${classId}&hash=${hash}`;
     }
     
-
+    useEffect(() => {
+        // Reset the QR state when the activeClass changes
+        setShowQR(false);
+        setQRURL('');
+    }, [activeClass]);
+    
     const renderTabContent = () => {
         switch (activeTab) {
             case 'attendance':
