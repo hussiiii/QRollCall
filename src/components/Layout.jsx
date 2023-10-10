@@ -14,7 +14,7 @@ function Layout({ children }) {
             <header className="bg-black text-white p-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <div className="flex-shrink-0 max-h-400">
-                        <a href="/"><Image src="/logo.png" alt="Logo" width={200} height={350} /></a>
+                        <Link href="/"><Image src="/logo.png" alt="Logo" width={200} height={350} /></Link>
                     </div>
                     <nav>
                         <ul className="flex space-x-4">
@@ -54,9 +54,7 @@ function Layout({ children }) {
                 <div className="container mx-auto text-center">
                     <p>&copy; {new Date().getFullYear()} QRollCall. All rights reserved.</p>
                     <div className="mt-2">
-                        <a href="/about" className="mx-2 hover:underline">About</a>
-                        <a href="/contact" className="mx-2 hover:underline">Contact</a>
-                        <a href="/help" className="mx-2 hover:underline">Help</a>
+                        {/* You can put some footer links here */}
                     </div>
                 </div>
             </footer>

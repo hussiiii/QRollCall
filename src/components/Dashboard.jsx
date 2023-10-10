@@ -88,7 +88,7 @@ function Dashboard() {
                 
                 <div className="flex flex-wrap">
                     {classes.map((classItem) => (
-                        <ClassCard classItem={classItem} onClassClick={openClassModal} />
+                        <ClassCard key={classItem.id} classItem={classItem} onClassClick={openClassModal} />
                     ))}
                     <div 
                         style={{ width: '192px', height: '300px' }}
