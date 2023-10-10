@@ -11,13 +11,11 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         switch (activeTab) {
             case 'attendance':
                 return (
-                    <div>
+                    <div className="flex flex-grow items-center justify-center">
                         {showQR ? (
-                            <div className="my-4">
-                                <QRCode value={`https://q-roll-call.vercel.app/attendance?classId=${activeClass.id}`} />
-                            </div>
+                            <QRCode value={`https://q-roll-call.vercel.app/attendance?classId=${activeClass.id}`} size={300} />
                         ) : (
-                            <button onClick={() => setShowQR(true)} className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out">
+                            <button onClick={() => setShowQR(true)} className="w-48 h-48 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center text-2xl">
                                 Create QR Code
                             </button>
                         )}
