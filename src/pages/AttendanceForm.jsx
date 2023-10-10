@@ -12,9 +12,13 @@ function AttendanceForm() {
 
     const isValidURL = () => {
         const secretKey = "YOUR_SECRET_KEY";
-        const computedHash = CryptoJS.HmacSHA256(`${classId}${sessionId}${timestamp}`, secretKey).toString();
+        const date = new Date().toISOString().slice(0,10); // Format: YYYY-MM-DD
+    
+        const computedHash = CryptoJS.HmacSHA256(`${classId}${date}`, secretKey).toString().slice(0, 6); // Taking the first 6 characters for brevity
+    
         return computedHash === hash;
     }
+    
 
     if (!isValidURL()) {
         return (

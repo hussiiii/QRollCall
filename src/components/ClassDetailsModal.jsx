@@ -9,15 +9,15 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
     const [showQR, setShowQR] = useState(false);
     const [qrURL, setQRURL] = useState('');
 
-    const generateDynamicURL = (classId) => {
+    const generateDailyURL = (classId) => {
         const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
-        const sessionId = uuidv4(); // Generate a unique UUID
-        const timestamp = Date.now();
-
-        const hash = CryptoJS.HmacSHA256(`${classId}${sessionId}${timestamp}`, secretKey).toString();
-
-        return `https://q-roll-call.vercel.app/AttendanceForm?classId=${classId}&sessionId=${sessionId}&timestamp=${timestamp}&hash=${hash}`;
+        const date = new Date().toISOString().slice(0,10); // Format: YYYY-MM-DD
+    
+        const hash = CryptoJS.HmacSHA256(`${classId}${date}`, secretKey).toString().slice(0, 6); // Taking the first 6 characters for brevity
+    
+        return `https://q-roll-call.vercel.app/AttendanceForm?classId=${classId}&hash=${hash}`;
     }
+    
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -28,8 +28,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                             <QRCode value={qrURL} size={240} />
                         ) : (
                             <button onClick={() => {
-                                const dynamicURL = generateDynamicURL(activeClass.id);
-                                setQRURL(dynamicURL);
+                                setQRURL(generateDailyURL(activeClass.id));
                                 setShowQR(true);
                             }} className="w-48 h-48 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 ease-in-out flex items-center justify-center text-2xl">
                                 Create QR Code
