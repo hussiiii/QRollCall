@@ -31,21 +31,18 @@ function AttendanceForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         // Trim the leading and trailing spaces from first name and last name
         const cleanedFirstName = firstName.trim();
         const cleanedLastName = lastName.trim();
-        
-        // Construct the combined name in "LastName, FirstName" format
-        const combinedName = `${cleanedLastName}, ${cleanedFirstName}`;
         
         try {
             const db = firebase.firestore();
             const studentsRef = db.collection('classes').doc(classId).collection('students');
     
-            // Check if student already exists
-            const studentSnapshot = await studentsRef.where("firstName", "==", firstName)
-                                                     .where("lastName", "==", lastName)
+            // Check if student already exists using the trimmed names
+            const studentSnapshot = await studentsRef.where("firstName", "==", cleanedFirstName)
+                                                     .where("lastName", "==", cleanedLastName)
                                                      .limit(1).get();
     
             const currentDate = new Date().toLocaleDateString(); // Only the date
@@ -57,10 +54,10 @@ function AttendanceForm() {
                     records: firebase.firestore.FieldValue.arrayUnion(currentDate)
                 });
             } else {
-                // Student does not exist, add a new entry
+                // Student does not exist, add a new entry using the trimmed names
                 await studentsRef.add({
-                    firstName: firstName,
-                    lastName: lastName,
+                    firstName: cleanedFirstName,
+                    lastName: cleanedLastName,
                     section: section,
                     records: [currentDate],
                     submittedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -74,6 +71,7 @@ function AttendanceForm() {
             console.error("Error recording attendance: ", error);
         }
     };
+    
     
 
     return (
