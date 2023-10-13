@@ -5,6 +5,8 @@ import CryptoJS from 'crypto-js';
 function AttendanceForm() {
     const router = useRouter();
     const { classId, sessionId, timestamp, hash } = router.query;
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -26,15 +28,44 @@ function AttendanceForm() {
         );
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Handle form submission logic
+    
+        try {
+            // Reference to the specific class's 'students' subcollection
+            const studentRef = firebase.firestore().collection('classes').doc(classId).collection('students');
+            
+            // Add the new student data to Firestore
+            await studentRef.add({
+                firstName: firstName,
+                lastName: lastName,
+                section: section,
+                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+    
+            // Optionally: Reset the form fields after successful submission
+            setFirstName('');
+            setLastName('');
+            setSection('');
+    
+            setIsFormSubmitted(true);
+    
+        } catch (error) {
+            console.error("Error recording attendance: ", error);
+        }
     };
+    
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-            <div className="w-full max-w-md p-5 mt-5 bg-white rounded shadow-lg">
-                <h2 className="text-2xl mb-5 font-bold text-center">Attendance Form</h2>
+        <div className="w-full max-w-md p-5 mt-5 bg-white rounded shadow-lg">
+            <h2 className="text-2xl mb-5 font-bold text-center">Attendance Form</h2>
+            
+            {isFormSubmitted ? (
+                <div className="text-center">
+                    <p>Thank you! Attendance recorded for {new Date().toLocaleDateString()}.</p>
+                </div>
+            ) : (
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
                         <label className="block text-lg font-medium mb-2">First Name</label>
@@ -71,8 +102,9 @@ function AttendanceForm() {
                         </button>
                     </div>
                 </form>
-            </div>
+            )}
         </div>
+    </div>
     );
 }
 
