@@ -10,6 +10,11 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
     const [showQR, setShowQR] = useState(false);
     const [qrURL, setQRURL] = useState('');
     const [studentsData, setStudentsData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const filteredStudents = studentsData.filter(student => 
+        (`${student.lastName}, ${student.firstName}`).toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     const generateDailyURL = (classId) => {
         const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
@@ -59,6 +64,17 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
             case 'data':
                 return (
                     <div>
+                        {/* Search bar */}
+                        <div className="mb-4">
+                            <input 
+                                type="text" 
+                                placeholder="Search for a student..." 
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                                className="w-full px-3 py-2 border rounded-md"
+                            />
+                        </div>
+                        {/* Table */}
                         <table className="min-w-full">
                             <thead>
                                 <tr>
@@ -68,7 +84,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                                 </tr>
                             </thead>
                             <tbody>
-                                {studentsData.map(student => (
+                                {filteredStudents.map(student => (
                                     <tr key={student.id}>
                                         <td className="px-6 py-4 border-b border-gray-300">{student.lastName}, {student.firstName}</td>
                                         <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>

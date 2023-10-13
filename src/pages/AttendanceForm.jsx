@@ -31,6 +31,9 @@ function AttendanceForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const trimmedFirstName = firstName.trim(); //remove trailing spaces 
+        const trimmedLastName = lastName.trim();
         
         try {
             const db = firebase.firestore();
