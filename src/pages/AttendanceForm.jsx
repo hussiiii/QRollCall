@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import CryptoJS from 'crypto-js';
+import firebase from '../../firebase'
 
 function AttendanceForm() {
     const router = useRouter();
