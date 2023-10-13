@@ -61,6 +61,7 @@ function AttendanceForm() {
             }
     
             console.log("Attendance recorded successfully!");
+            setIsFormSubmitted(true); 
     
         } catch (error) {
             console.error("Error recording attendance: ", error);
