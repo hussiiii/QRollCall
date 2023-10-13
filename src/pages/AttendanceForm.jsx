@@ -32,8 +32,12 @@ function AttendanceForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const trimmedFirstName = firstName.trim(); //remove trailing spaces 
-        const trimmedLastName = lastName.trim();
+        // Trim the leading and trailing spaces from first name and last name
+        const cleanedFirstName = firstName.trim();
+        const cleanedLastName = lastName.trim();
+        
+        // Construct the combined name in "LastName, FirstName" format
+        const combinedName = `${cleanedLastName}, ${cleanedFirstName}`;
         
         try {
             const db = firebase.firestore();
