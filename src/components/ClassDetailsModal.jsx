@@ -1,7 +1,7 @@
 // ClassDetailsModal.jsx
 import QRCode from 'qrcode.react';
-import { v4 as uuidv4 } from 'uuid';
 import CryptoJS from 'crypto-js';
+import firebase from '../../firebase';
 import { useState, useEffect } from 'react';
 
   
@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClose }) {
     const [showQR, setShowQR] = useState(false);
     const [qrURL, setQRURL] = useState('');
+    const [studentsData, setStudentsData] = useState([]);
 
     const generateDailyURL = (classId) => {
         const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
@@ -23,7 +24,20 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         // Reset the QR state when the activeClass changes
         setShowQR(false);
         setQRURL('');
-    }, [activeClass]);
+    
+        const fetchStudentsData = async () => {
+            if (activeClass && activeTab === 'data') {
+                const db = firebase.firestore();
+                const studentsRef = db.collection('classes').doc(activeClass.id).collection('students');
+                const snapshot = await studentsRef.get();
+    
+                const studentsArray = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                setStudentsData(studentsArray);
+            }
+        };
+    
+        fetchStudentsData();
+    }, [activeClass, activeTab]);
     
     const renderTabContent = () => {
         switch (activeTab) {
@@ -43,7 +57,30 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                     </div>
                 );
             case 'data':
-                return <div>View Data Content</div>;
+                return (
+                    <div>
+                        <table className="min-w-full">
+                            <thead>
+                                <tr>
+                                    <th className="px-6 py-3 border-b border-gray-300">First Name</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Last Name</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Section</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Submitted At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {studentsData.map(student => (
+                                    <tr key={student.id}>
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.firstName}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.lastName}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{new Date(student.submittedAt.seconds * 1000).toLocaleString()}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                );
             default:
                 return null;
         }
