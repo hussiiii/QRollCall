@@ -31,25 +31,36 @@ function AttendanceForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        
         try {
-            // Reference to the specific class's 'students' subcollection
-            const studentRef = firebase.firestore().collection('classes').doc(classId).collection('students');
-            
-            // Add the new student data to Firestore
-            await studentRef.add({
-                firstName: firstName,
-                lastName: lastName,
-                section: section,
-                submittedAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
+            const db = firebase.firestore();
+            const studentsRef = db.collection('classes').doc(classId).collection('students');
     
-            // Optionally: Reset the form fields after successful submission
-            setFirstName('');
-            setLastName('');
-            setSection('');
+            // Check if student already exists
+            const studentSnapshot = await studentsRef.where("firstName", "==", firstName)
+                                                     .where("lastName", "==", lastName)
+                                                     .limit(1).get();
     
-            setIsFormSubmitted(true);
+            const currentDate = new Date().toLocaleDateString(); // Only the date
+    
+            if (!studentSnapshot.empty) {
+                // Student exists, update their record
+                const studentDocRef = studentSnapshot.docs[0].ref;
+                await studentDocRef.update({
+                    records: firebase.firestore.FieldValue.arrayUnion(currentDate)
+                });
+            } else {
+                // Student does not exist, add a new entry
+                await studentsRef.add({
+                    firstName: firstName,
+                    lastName: lastName,
+                    section: section,
+                    records: [currentDate],
+                    submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+    
+            console.log("Attendance recorded successfully!");
     
         } catch (error) {
             console.error("Error recording attendance: ", error);

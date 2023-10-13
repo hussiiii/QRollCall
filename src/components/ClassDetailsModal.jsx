@@ -62,19 +62,17 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                         <table className="min-w-full">
                             <thead>
                                 <tr>
-                                    <th className="px-6 py-3 border-b border-gray-300">First Name</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">Last Name</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Name</th>
                                     <th className="px-6 py-3 border-b border-gray-300">Section</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">Submitted At</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Record</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {studentsData.map(student => (
                                     <tr key={student.id}>
-                                        <td className="px-6 py-4 border-b border-gray-300">{student.firstName}</td>
-                                        <td className="px-6 py-4 border-b border-gray-300">{student.lastName}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.lastName}, {student.firstName}</td>
                                         <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>
-                                        <td className="px-6 py-4 border-b border-gray-300">{new Date(student.submittedAt.seconds * 1000).toLocaleString()}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{new Date(student.submittedAt.seconds * 1000).toLocaleDateString()}</td>
                                     </tr>
                                 ))}
                             </tbody>
