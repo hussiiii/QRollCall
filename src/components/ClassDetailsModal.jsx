@@ -17,10 +17,22 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         (`${student.lastName}, ${student.firstName}`).toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    const handleDeleteClass = () => {
-        // Logic for deleting the class goes here
-        // For now, I'll just console.log it
-        console.log('Class deleted!');
+    const handleDeleteClass = async () => {
+        if (!activeClass || !activeClass.id) {
+            console.error("No active class selected for deletion");
+            return;
+        }
+    
+        const db = firebase.firestore();
+        const classRef = db.collection('classes').doc(activeClass.id);
+    
+        try {
+            await classRef.delete();
+            console.log('Class deleted successfully!');
+            onClose();  // Close the modal after deletion
+        } catch (error) {
+            console.error("Error deleting class: ", error);
+        }
     }
 
     const generateDailyURL = (classId) => {
