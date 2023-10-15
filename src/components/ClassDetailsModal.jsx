@@ -65,33 +65,20 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
             case 'data':
                 return (
                     <div>
-                        {/* Search bar */}
-                        <div className="mb-4">
-                            <input 
-                                type="text" 
-                                placeholder="Search for a student..." 
-                                value={searchTerm}
-                                onChange={e => setSearchTerm(e.target.value)}
-                                className="w-full px-3 py-2 border rounded-md"
-                            />
-                        </div>
-                        {/* Table */}
+                        {/* ... [Search bar and other parts] */}
+                        
                         <table className="min-w-full">
-                            <thead>
-                                <tr>
-                                    <th className="px-6 py-3 border-b border-gray-300">Name</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">Section</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">View</th>
-                                </tr>
-                            </thead>
+                            {/* ... [Table headers] */}
                             <tbody>
                                 {filteredStudents.map(student => (
                                     <tr key={student.id}>
-                                        <td className="px-6 py-4 border-b border-gray-300">{student.lastName}, {student.firstName}</td>
-                                        <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>
+                                        {/* ... [Other columns] */}
                                         <td className="px-6 py-4 border-b border-gray-300">
-                                            <button onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}>
-                                                View
+                                            <button 
+                                                onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}
+                                                className="px-2 py-1 text-sm rounded bg-gray-200 hover:bg-gray-300 transition duration-300 ease-in-out"
+                                            >
+                                                View {activeDropdown === student.id ? '▲' : '▼'}
                                             </button>
                                             {activeDropdown === student.id && (
                                                 <div className="mt-2">
