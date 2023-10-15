@@ -3,6 +3,7 @@ import QRCode from 'qrcode.react';
 import CryptoJS from 'crypto-js';
 import firebase from '../../firebase';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 
   
 
@@ -30,6 +31,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
             await classRef.delete();
             console.log('Class deleted successfully!');
             onClose();  // Close the modal after deletion
+            router.push('/'); // Redirect to the home page
         } catch (error) {
             console.error("Error deleting class: ", error);
         }
@@ -101,7 +103,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                                 <tr>
                                     <th className="px-6 py-3 border-b border-gray-300">Name</th>
                                     <th className="px-6 py-3 border-b border-gray-300">Section</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">Attendance</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Record</th>
                                 </tr>
                             </thead>
                             <tbody>
