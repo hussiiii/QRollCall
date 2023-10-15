@@ -91,12 +91,12 @@ function Dashboard() {
                         <ClassCard key={classItem.id} classItem={classItem} onClassClick={openClassModal} />
                     ))}
                     <div 
-                        style={{ width: '192px', height: '300px' }}
-                        className="my-4 mr-4 bg-white rounded-lg shadow-lg hover:bg-gray-100 transition ease-in-out duration-200 cursor-pointer flex flex-col items-center justify-center p-4 hover:shadow-xl transform hover:-translate-y-1"
+                        style={{ width: '240px', height: '340px' }}  // Adjusting to a fixed size
+                        className="my-4 mr-4 bg-red-300 rounded-lg shadow-lg hover:bg-orange-300 transition ease-in-out duration-200 cursor-pointer flex flex-col items-center justify-center p-4 hover:shadow-xl transform hover:-translate-y-1"
                         onClick={() => setIsAddClassModalOpen(true)}
                     >
-                        <div className="text-6xl mb-4 text-gray-700">+</div>
-                        <p className="text-xl font-semibold text-gray-700">Add Class</p>
+                        <div className="text-6xl mb-4 text-white">+</div>
+                        <p className="text-xl font-semibold text-white">Add Class</p>
                     </div>
                 </div>
                 
