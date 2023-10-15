@@ -42,7 +42,9 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         const date = new Date(new Date().getTime() - (8 * 60 * 60 * 1000)).toISOString().slice(0,10); // Format: YYYY-MM-DD
     
         const hash = CryptoJS.HmacSHA256(`${classId}${date}`, secretKey).toString().slice(0, 6); // Taking the first 6 characters for brevity
-    
+       
+        console.log("Generated Date:", date);
+        console.log("Generated Hash:", hash);
         return `https://q-roll-call.vercel.app/AttendanceForm?classId=${classId}&hash=${hash}`;
     }
     

@@ -25,11 +25,11 @@ export default function Home() {
                         makes taking attendance as easy as 
                     <span className="text-red-700 font-bold"> pressing a button</span>
                 </h2>
-                    <p className="text-xl text-gray-800">
+                    <p className="text-xl text-gray-800 mb-16">
                         QRollCall is your ultimate solution for effortless attendance tracking. With our platform, teachers and institutions can efficiently monitor and manage class attendance using QR codes.
                     </p>
                     <p className="text-xl text-gray-800">
-                        Sign In to begin adding classes to the dashboard below.
+                        Sign In to begin adding classes to the dashboard below!
                     </p>
                 </div>
                 <div className="md:w-1/2">
