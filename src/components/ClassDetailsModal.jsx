@@ -65,14 +65,30 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
             case 'data':
                 return (
                     <div>
-                        {/* ... [Search bar and other parts] */}
-                        
+                        {/* Search bar */}
+                        <div className="mb-4">
+                            <input 
+                                type="text" 
+                                placeholder="Search for a student..." 
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                                className="w-full px-3 py-2 border rounded-md"
+                            />
+                        </div>
+                        {/* Table */}
                         <table className="min-w-full">
-                            {/* ... [Table headers] */}
+                            <thead>
+                                <tr>
+                                    <th className="px-6 py-3 border-b border-gray-300">Name</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Section</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">View</th>
+                                </tr>
+                            </thead>
                             <tbody>
                                 {filteredStudents.map(student => (
                                     <tr key={student.id}>
-                                        {/* ... [Other columns] */}
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.lastName}, {student.firstName}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>
                                         <td className="px-6 py-4 border-b border-gray-300">
                                             <button 
                                                 onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}
