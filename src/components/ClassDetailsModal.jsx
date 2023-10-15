@@ -11,6 +11,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
     const [qrURL, setQRURL] = useState('');
     const [studentsData, setStudentsData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [activeDropdown, setActiveDropdown] = useState(null);
 
     const filteredStudents = studentsData.filter(student => 
         (`${student.lastName}, ${student.firstName}`).toLowerCase().includes(searchTerm.toLowerCase())
@@ -80,7 +81,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                                 <tr>
                                     <th className="px-6 py-3 border-b border-gray-300">Name</th>
                                     <th className="px-6 py-3 border-b border-gray-300">Section</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">Record</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">View</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,7 +89,18 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                                     <tr key={student.id}>
                                         <td className="px-6 py-4 border-b border-gray-300">{student.lastName}, {student.firstName}</td>
                                         <td className="px-6 py-4 border-b border-gray-300">{student.section}</td>
-                                        <td className="px-6 py-4 border-b border-gray-300">{new Date(student.submittedAt.seconds * 1000).toLocaleDateString()}</td>
+                                        <td className="px-6 py-4 border-b border-gray-300">
+                                            <button onClick={() => setActiveDropdown(activeDropdown === student.id ? null : student.id)}>
+                                                View
+                                            </button>
+                                            {activeDropdown === student.id && (
+                                                <div className="mt-2">
+                                                    {student.records.map(recordDate => (
+                                                        <div key={recordDate}>{recordDate}</div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </td>
                                     </tr>
                                 ))}
                             </tbody>
