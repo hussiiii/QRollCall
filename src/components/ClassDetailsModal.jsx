@@ -19,7 +19,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
 
     const generateDailyURL = (classId) => {
         const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
-        const date = new Date().toISOString().slice(0,10); // Format: YYYY-MM-DD
+        const date = new Date(new Date().getTime() - (8 * 60 * 60 * 1000)).toISOString().slice(0,10); // Format: YYYY-MM-DD
     
         const hash = CryptoJS.HmacSHA256(`${classId}${date}`, secretKey).toString().slice(0, 6); // Taking the first 6 characters for brevity
     
@@ -30,6 +30,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         // Reset the QR state when the activeClass changes
         setShowQR(false);
         setQRURL('');
+        setSearchTerm('');
     
         const fetchStudentsData = async () => {
             if (activeClass && activeTab === 'data') {
@@ -81,7 +82,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
                                 <tr>
                                     <th className="px-6 py-3 border-b border-gray-300">Name</th>
                                     <th className="px-6 py-3 border-b border-gray-300">Section</th>
-                                    <th className="px-6 py-3 border-b border-gray-300">View</th>
+                                    <th className="px-6 py-3 border-b border-gray-300">Attendance</th>
                                 </tr>
                             </thead>
                             <tbody>
