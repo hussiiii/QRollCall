@@ -17,6 +17,12 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         (`${student.lastName}, ${student.firstName}`).toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const handleDeleteClass = () => {
+        // Logic for deleting the class goes here
+        // For now, I'll just console.log it
+        console.log('Class deleted!');
+    }
+
     const generateDailyURL = (classId) => {
         const secretKey = "YOUR_SECRET_KEY"; // Store this securely and do not expose
         const date = new Date(new Date().getTime() - (8 * 60 * 60 * 1000)).toISOString().slice(0,10); // Format: YYYY-MM-DD
@@ -121,9 +127,10 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
-            <div className="flex flex-col bg-white p-8 rounded-lg w-3/4 h-3/4 max-w-xl max-h-xl overflow-hidden">
+            <div className="relative flex flex-col bg-white p-8 rounded-lg w-4/5 h-4/5 max-w-2xl max-h-2xl overflow-hidden">
+                <button onClick={handleDeleteClass} className="absolute top-4 right-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition duration-300 ease-in-out">Delete Class</button>
                 <h2 className="text-2xl mb-4 font-bold text-center">{activeClass.name}</h2>
-                <div className="flex justify-between mb-4">
+                <div className="justify-center flex mb-4 space-x-2">
                     <button 
                         className={`px-4 py-2 ${activeTab === 'attendance' ? 'bg-gray-500' : 'bg-gray-300'} text-white rounded hover:bg-gray-600 transition duration-300 ease-in-out`} 
                         onClick={() => onTabChange('attendance')}

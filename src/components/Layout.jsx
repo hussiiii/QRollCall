@@ -11,11 +11,13 @@ function Layout({ children }) {
     return (
         <div className="flex flex-col min-h-screen">
             {/* Header */}
-            <header className="bg-black text-white p-4">
+            <header className="bg-black text-white p-2">
                 <div className="container mx-auto flex justify-between items-center">
-                    <div className="flex-shrink-0 max-h-400">
-                        <Link href="/"><Image src="/logo.png" alt="Logo" width={200} height={350} /></Link>
-                    </div>
+                <div className="flex-shrink-0">
+                    <Link href="/">
+                            <img src="/logo.png" alt="Logo" className="h-20 w-auto" /> {/* Adjusted to standard img tag with some height */}
+                    </Link>
+                </div>
                     <nav>
                         <ul className="flex space-x-4">
                             {
