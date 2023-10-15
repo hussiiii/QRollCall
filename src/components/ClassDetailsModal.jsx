@@ -31,6 +31,7 @@ function ClassDetailsModal({ isOpen, activeClass, activeTab, onTabChange, onClos
         setShowQR(false);
         setQRURL('');
         setSearchTerm('');
+        setActiveDropdown(null); 
     
         const fetchStudentsData = async () => {
             if (activeClass && activeTab === 'data') {
